@@ -4,12 +4,12 @@
 import os
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-import seaborn as sns
+#from matplotlib import pyplot as plt
+#import seaborn as sns
 from tensorflow import keras
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
+#from sklearn.decomposition import PCA
+#from sklearn.manifold import TSNE
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.utils import shuffle
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
