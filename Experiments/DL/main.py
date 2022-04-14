@@ -76,6 +76,9 @@ def main():
         X_val = scaler.transform(X_val)
         if TESTING:
             X_test = scaler.transform(X_test)
+    elif STRATEGY == 3 or STRATEGY == 4:
+        # TODO: test set preprocessing
+        pass
 
     # Shuffle data
     X_train, y_train = shuffle(X_train, y_train, random_state=1)
