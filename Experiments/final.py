@@ -18,9 +18,9 @@ from sklearn import svm, ensemble
 
 # Flags
 USE_RAW_DATA = False
-USE_TEST_SET = False
+USE_TEST_SET = True
 FEATURE_SELECTION = True
-CUSTOM_FEATURE_SELECTION = True
+CUSTOM_FEATURE_SELECTION = False
 
 
 # Read training set
