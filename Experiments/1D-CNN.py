@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 #import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import shuffle
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
+#from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, f1_score, accuracy_score
 from tensorflow import keras
 
@@ -16,8 +16,6 @@ from tensorflow import keras
 # Flags
 USE_RAW_DATA = False
 USE_TEST_SET = True
-FEATURE_SELECTION = True
-CUSTOM_FEATURE_SELECTION = False
 
 
 # Read training set
@@ -64,68 +62,6 @@ X_train_standardized = std_scaler.fit_transform(X_train)
 X_val_standardized = std_scaler.transform(X_val)
 if USE_TEST_SET:
     X_test_standardized = std_scaler.transform(X_test)
-
-
-if FEATURE_SELECTION:
-    print("Feature Selection...")
-
-    if CUSTOM_FEATURE_SELECTION:  # Manual feature selection with 3000 features
-        header = list(range(0, 12210, 4))
-
-        if USE_RAW_DATA:
-            # Raw data
-            X_train = (X_train[:, header])[:, :3000]
-            X_val = (X_val[:, header])[:, :3000]
-            if USE_TEST_SET:
-                X_test = (X_test[:, header])[:, :3000]
-
-            print("Raw Data")
-            print("X_train shape:", X_train.shape)
-            print("X_val shape:", X_val.shape)
-            if USE_TEST_SET:
-                print("X_test shape:", X_test.shape)
-            print("\n")
-        else:
-            # Standardized data
-            X_train_standardized = (X_train_standardized[:, header])[:, :3000]
-            X_val_standardized = (X_val_standardized[:, header])[:, :3000]
-            if USE_TEST_SET:
-                X_test_standardized = (X_test_standardized[:, header])[:, :3000]
-
-            print("Standardized Data")
-            print("X_train_standardized shape:", X_train_standardized.shape)
-            print("X_val_standardized shape:", X_val_standardized.shape)
-            if USE_TEST_SET:
-                print("X_test_standardized shape:", X_test_standardized.shape)
-    else:  # Standard Feature Selection
-        if USE_RAW_DATA:
-            # Raw Data
-            selector = SelectKBest(mutual_info_classif, k=3000)
-            X_train = selector.fit_transform(X_train, y_train)
-            X_val = selector.transform(X_val)
-            if USE_TEST_SET:
-                X_test = selector.transform(X_test)
-
-            print("Raw Data")
-            print("X_train shape:", X_train.shape)
-            print("X_val shape:", X_val.shape)
-            if USE_TEST_SET:
-                print("X_test shape:", X_test.shape)
-            print("\n")
-        else:
-            # Standardized Data
-            selector = SelectKBest(mutual_info_classif, k=3000)
-            X_train_standardized = selector.fit_transform(X_train_standardized, y_train)
-            X_val_standardized = selector.transform(X_val_standardized)
-            if USE_TEST_SET:
-                X_test_standardized = selector.transform(X_test_standardized)
-
-            print("Standardized Data")
-            print("X_train_standardized shape:", X_train_standardized.shape)
-            print("X_val_standardized shape:", X_val_standardized.shape)
-            if USE_TEST_SET:
-                print("X_test_standardized shape:", X_test_standardized.shape)
-            print("\n")
 
 
 # Shuffle data
