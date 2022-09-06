@@ -1,0 +1,9 @@
+source blood/bin/activate
+
+nohup ./test.sh > nohup/test.out &
+
+nohup ./testCNN.sh > nohup/test1DCNN.out &
+
+nohup ./testNODE.sh > nohup/testNODE.out &
+
+

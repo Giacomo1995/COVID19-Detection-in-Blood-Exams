@@ -1,3 +1,8 @@
+Data/
+saved_models/
+.pt_tmp/
+Confmat/
+nohup/
 **/.DS_Store
 
 # Byte-compiled / optimized / DLL files
