@@ -4,14 +4,12 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.utils import shuffle
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-
 from classifier import *
 from utils import *
 
 
 STRATEGY = 5  # Select the network architecture to adopt for the training process
 MODEL_NAME = "model"  # Name of the model
-TESTING = False  # If set to True the test set is used
 
 
 def main():
@@ -30,30 +28,11 @@ def main():
 
     print("Training set and validation set loaded correctly.")
 
-    if TESTING:
-        # Load test set
-        print("Reading test set...")
-        test_set = pd.read_csv(os.path.join('Data', 'test_set.csv'), compression=None)
-        print("Test set loaded correctly.")
-
-        # Filter test set based on the adopted training set
-        header = get_header(training_set)
-        print("########## HEADER ##########")
-        print(header)
-
-        test_set = filter_dataset(header=header, dataset=test_set)
-        print("########## TEST SET ##########")
-        print(test_set)
-
     # y_train
     y_train = np.array(training_set['12210']).astype(int)
 
     # y_val
     y_val = np.array(validation_set['12210']).astype(int)
-
-    if TESTING:
-        # y_test
-        y_test = np.array(test_set['12210']).astype(int)
 
     # X_train
     del training_set['12210']
@@ -63,25 +42,16 @@ def main():
     del validation_set['12210']
     X_val = np.array(validation_set)
 
-    if TESTING:
-        # X_test
-        del test_set['12210']
-        X_test = np.array(test_set)
-
     # Standardization step (zero mean and unit standard deviation)
     if STRATEGY == 1 or STRATEGY == 2 or STRATEGY == 5:
         scaler = StandardScaler()
         scaler.fit(X_train)
         X_train = scaler.transform(X_train)
         X_val = scaler.transform(X_val)
-        if TESTING:
-            X_test = scaler.transform(X_test)
 
     # Shuffle data
     X_train, y_train = shuffle(X_train, y_train, random_state=1)
     X_val, y_val = shuffle(X_val, y_val, random_state=1)
-    if TESTING:
-        X_test, y_test = shuffle(X_test, y_test, random_state=1)
 
     # Get the selected model based on STRATEGY
     clf = Classifier(STRATEGY)
@@ -102,12 +72,6 @@ def main():
     print("Validating the model...")
     results = model.evaluate(X_val, y_val, batch_size=128)
     print("validation loss, validation acc:", results)
-
-    if TESTING:
-        # Test the model
-        print("Testing the model...")
-        results = model.evaluate(X_test, y_test, batch_size=128)
-        print("test loss, test acc:", results)
 
     # Plot loss and accuracy
     epochs = range(num_epochs)
